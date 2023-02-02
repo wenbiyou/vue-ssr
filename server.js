@@ -2,11 +2,20 @@ const express = require('express')
 const fs = require('fs')
 const Vue = require('vue')
 
+const server = express()
+
 const renderer = require('vue-server-renderer').createRenderer({
   template: fs.readFileSync('./index.template.html', 'utf-8')
 })
 
-const server = express()
+const context = {
+  title: 'vue ssr',
+  metas: `
+      <meta name="keyword" content="vue,ssr">
+      <meta name="description" content="vue srr demo">
+  `,
+};
+
 
 server.get('/', (req, res) => {
   const app = new Vue({
@@ -16,7 +25,8 @@ server.get('/', (req, res) => {
     }
   })
   
-  renderer.renderToString(app, (err, html) => {
+  renderer.renderToString(app, context, (err, html) => {
+    console.log('ngz-ceshi', `${err}`)
     if (err) {
       return res.status(500).send('Internal Server Error!')
     }
