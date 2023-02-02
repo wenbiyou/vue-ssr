@@ -1,31 +1,53 @@
-const express = require('express')
-const fs = require('fs')
-const Vue = require('vue')
+const express = require("express");
+const fs = require("fs");
+const Vue = require("vue");
+const vueServerRenderer = require("vue-server-renderer");
 
-const renderer = require('vue-server-renderer').createRenderer({
-  template: fs.readFileSync('./index.template.html', 'utf-8')
-})
+// 生成一個渲染器
+const renderer = vueServerRenderer.createRenderer({
+  template: fs.readFileSync("./index.template.html", "utf-8"),
+});
 
-const server = express()
+// 創建一個express實例
+const server = express();
 
-server.get('/', (req, res) => {
+const createApp = () => {
   const app = new Vue({
-    template: `<div>{{ message }}</div>`,
+    template: `
+      <div id="app">
+        <h1>Hello {{ message }}</h1>
+        <input v-model="message">
+      </div>
+    `,
     data: {
-      message: "hello vue-ssr"
-    }
-  })
-  
-  renderer.renderToString(app, (err, html) => {
-    if (err) {
-      return res.status(500).send('Internal Server Error!')
-    }
-    res.send(html)
-  })
-})
+      message: "world",
+    },
+  });
+  return app;
+};
 
-server.listen(3000, function() {
-  console.log('server running at port 3000.')
-})
+server.get("/foo", (req, res) => {
+  const app = createApp();
 
+  app.message = "世界";
+  res.send("foo");
+});
 
+server.get("/", async (req, res) => {
+  try {
+    const app = createApp();
+    const ret = await renderer.renderToString(app, {
+      title: "自定义页面标题",
+      meta: `
+        <meta name="description" content="hello world">
+      `,
+    });
+    res.end(ret);
+  } catch (err) {
+    res.status(500).end("Internal Server Error.");
+  }
+});
+
+server.listen(3000, function () {
+  console.log("server running at port 3000.");
+});
