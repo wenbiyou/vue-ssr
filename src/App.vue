@@ -1,13 +1,27 @@
 <template>
   <div id="app">
-    <h1>hello vue-ssr</h1>
+    <h1>{{ message }}</h1>
+    <input v-model="message" />
+    <button @click="clickFunc">click</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "App"
-};
+  data() {
+    return {
+      message: 'hello world'
+    }
+  },
+  methods: {
+    clickFunc() {
+      console.log('ngz-ceshi', `click it!`)
+    }
+  }
+
+}
 </script>
 
-<style></style>
+<style>
+
+</style>
