@@ -28,6 +28,10 @@
 
 2.在创建服务器renderer时，使用directives选项提供‘服务器端版本’
 
-## 不同页面不同的head
+## 管理不同页面Head内容
 
 [VueMeta](https://vue-meta.nuxtjs.org/)
+
+## 数据预取和状态管理
+
+Vuex

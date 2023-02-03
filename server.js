@@ -9,6 +9,7 @@ const server = express();
 server.use("/dist", express.static("./dist"));
 
 const isProd = process.env.NOD_ENV === "production";
+
 let renderer;
 let onReady;
 if (isProd) {
@@ -41,9 +42,11 @@ const render = async (req, res) => {
     res.setHeader("Content-Type", "text/html; charset=utf8");
     res.end(html);
   } catch (err) {
+    console.warn('ngz-ceshi', `${err}`)
     res.status(500).end("Internal Server Error.");
   }
 };
+
 server.get(
   "*",
   isProd
