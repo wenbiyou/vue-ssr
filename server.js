@@ -33,10 +33,10 @@ if (isProd) {
 const render = async (req, res) => {
   try {
     const html = await renderer.renderToString({
+      url: req.url,
       title: "服务端渲染",
       meta: `
-  <meta name="description" content="hello ssr">`,
-    url: req.url,
+        <meta name="description" content="hello ssr">`,
     });
     res.setHeader("Content-Type", "text/html; charset=utf8");
     res.end(html);

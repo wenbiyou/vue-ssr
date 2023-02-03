@@ -1,5 +1,7 @@
 import { createApp } from "./app";
 
-const { app } = createApp();
+const { app, router } = createApp();
 
-app.$mount("#app", true);
+router.onReady(() => {
+  app.$mount("#app");
+});

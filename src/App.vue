@@ -1,8 +1,15 @@
 <template>
   <div id="app">
-    <h1>{{ message }}</h1>
-    <input v-model="message" />
-    <button @click="clickFunc">click12121212</button>
+    <ul>
+      <li>
+        <router-link to="/">Home</router-link>
+      </li>
+      <li>
+        <router-link to="/about">About</router-link>
+      </li>
+    </ul>
+    <!-- 路由出口 -->
+   <router-view />
   </div>
 </template>
 
