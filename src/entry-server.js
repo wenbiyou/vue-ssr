@@ -7,10 +7,15 @@ export default async (context) => {
   // 就已经准备就绪。
   const { app, router } = createApp();
 
+  const meta = app.$meta()
+
   router.push(context.url);
+
+  context.meta = meta
 
   // 等 router 将可能的异步组件和钩子函数解析完
   await new Promise(router.onReady.bind(router));
+
 
   return app;
 };
